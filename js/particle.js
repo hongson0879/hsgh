@@ -1,27 +1,27 @@
 /*
- * Settings
- */
+  * Settings
+  */
 var settings = {
   particles: {
-    length: 500, // maximum amount of particles
+    length: 2000, // maximum amount of particles
     duration: 2, // particle duration in sec
     velocity: 100, // particle velocity in pixels/sec
-    effect: -0.75, // play with this for a nice effect
-    size: 30, // particle size in pixels
-  },
+    effect: -1.3, // play with this for a nice effect
+    size: 13 // particle size in pixels
+  }
 };
 
 /*
- * RequestAnimationFrame polyfill by Erik M?ller
- */
+  * RequestAnimationFrame polyfill by Erik Möller
+  */
 (function() {
   var b = 0;
-  var c = ["ms", "moz", "webkit", "o"];
+  var c = ['ms', 'moz', 'webkit', 'o'];
   for (var a = 0; a < c.length && !window.requestAnimationFrame; ++a) {
-    window.requestAnimationFrame = window[c[a] + "RequestAnimationFrame"];
+    window.requestAnimationFrame = window[c[a] + 'RequestAnimationFrame'];
     window.cancelAnimationFrame =
-      window[c[a] + "CancelAnimationFrame"] ||
-      window[c[a] + "CancelRequestAnimationFrame"];
+      window[c[a] + 'CancelAnimationFrame'] ||
+      window[c[a] + 'CancelRequestAnimationFrame'];
   }
   if (!window.requestAnimationFrame) {
     window.requestAnimationFrame = function(h, e) {
@@ -42,18 +42,18 @@ var settings = {
 })();
 
 /*
- * Point class
- */
+  * Point class
+  */
 var Point = (function() {
   function Point(x, y) {
-    this.x = typeof x !== "undefined" ? x : 0;
-    this.y = typeof y !== "undefined" ? y : 0;
+    this.x = typeof x !== 'undefined' ? x : 0;
+    this.y = typeof y !== 'undefined' ? y : 0;
   }
   Point.prototype.clone = function() {
     return new Point(this.x, this.y);
   };
   Point.prototype.length = function(length) {
-    if (typeof length == "undefined")
+    if (typeof length == 'undefined')
       return Math.sqrt(this.x * this.x + this.y * this.y);
     this.normalize();
     this.x *= length;
@@ -70,8 +70,8 @@ var Point = (function() {
 })();
 
 /*
- * Particle class
- */
+  * Particle class
+  */
 var Particle = (function() {
   function Particle() {
     this.position = new Point();
@@ -113,8 +113,8 @@ var Particle = (function() {
 })();
 
 /*
- * ParticlePool class
- */
+  * ParticlePool class
+  */
 var ParticlePool = (function() {
   var particles,
     firstActive = 0,
@@ -175,12 +175,13 @@ var ParticlePool = (function() {
 })();
 
 /*
- * Putting it all together
- */
+  * Putting it all together
+  */
 (function(canvas) {
-  var context = canvas.getContext("2d"),
+  var context = canvas.getContext('2d'),
     particles = new ParticlePool(settings.particles.length),
-    particleRate = settings.particles.length / settings.particles.duration, // particles/sec
+    particleRate =
+      settings.particles.length / settings.particles.duration, // particles/sec
     time;
 
   // get point on heart with -PI <= t <= PI
@@ -188,17 +189,17 @@ var ParticlePool = (function() {
     return new Point(
       160 * Math.pow(Math.sin(t), 3),
       130 * Math.cos(t) -
-      50 * Math.cos(2 * t) -
-      20 * Math.cos(3 * t) -
-      10 * Math.cos(4 * t) +
-      25
+        50 * Math.cos(2 * t) -
+        20 * Math.cos(3 * t) -
+        10 * Math.cos(4 * t) +
+        25
     );
   }
 
   // creating the particle image using a dummy canvas
   var image = (function() {
-    var canvas = document.createElement("canvas"),
-      context = canvas.getContext("2d");
+    var canvas = document.createElement('canvas'),
+      context = canvas.getContext('2d');
     canvas.width = settings.particles.size;
     canvas.height = settings.particles.size;
     // helper function to create the path
@@ -224,7 +225,7 @@ var ParticlePool = (function() {
     }
     context.closePath();
     // create the fill
-    context.fillStyle = "#ea80b0";
+    context.fillStyle = '#FF5CA4';
     context.fill();
     // create the image
     var image = new Image();
@@ -275,4 +276,4 @@ var ParticlePool = (function() {
     onResize();
     render();
   }, 10);
-})(document.getElementById("pinkboard"));
+})(document.getElementById('pinkboard'));
